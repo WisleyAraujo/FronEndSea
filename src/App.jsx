@@ -1,20 +1,35 @@
-import Formulario from "./componentes/formulario/Formulario.jsx";
-// import ModalUnstyled from "./componentes/Modal.jsx";
+
+import Login from "./pages/login/Login.jsx";
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
-  Switch,
+  Routes,
+  Navigate,
 } from "react-router-dom";
-// import Login from "./componentes/login/Login.jsx";
-// import Cadastro from "./componentes/cadastro/Cadastro.jsx";
+import Clientes  from "./pages/Clientes.jsx";
+
+
+
 function App() {
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    return !!token;
+  };
+
+  const PrivateRoute = ({ element }) => {
+    return isAuthenticated() ? element : <Navigate to="/login" replace />;
+  };
+
   return (
-    <Switch>
-      <Route exact path="/">
-        <Login />
-      </Route>
-    </Switch>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />}></Route>
+        <Route
+          path="/clientes"
+          element={<PrivateRoute element={<Clientes />} />}
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
-import Formulario from "./formulario/Formulario.jsx";
+import Formulario from "../pages/formulario/Formulario.jsx";
 
-export default function Modal({ children }) {
+export default function ModalUnstyled({ children }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

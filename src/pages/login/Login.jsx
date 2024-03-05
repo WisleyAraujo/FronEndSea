@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./css/login.css";
 import { TextField, Button } from "@mui/material";
 import axios from "axios";
 const Login = () => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     login: "",
     senha: "",
@@ -19,7 +21,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Faz o POST para a URL de login
       const response = await axios.post(
         "http://localhost:8080/auth/login",
         loginData
@@ -28,9 +29,8 @@ const Login = () => {
       const token = response.data.token;
       localStorage.setItem("token", token);
       alert("Usuário autenticado com sucesso!");
-      history.push("/clientes/listar");
+      navigate("/clientes");
     } catch (error) {
-      alert("Usuario nao encontrado");
       console.error("Erro ao fazer login:", error);
     }
   };

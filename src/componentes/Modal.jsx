@@ -5,7 +5,7 @@ import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
 import Formulario from "./formulario/Formulario.jsx";
 
-export default function ModalUnstyled({ children }) {
+export default function Modal({ children }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

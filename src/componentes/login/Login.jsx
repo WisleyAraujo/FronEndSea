@@ -1,47 +1,68 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useState } from "react";
+import "./css/login.css";
+import { TextField, Button } from "@mui/material";
+import axios from "axios";
+const Login = () => {
+  const [loginData, setLoginData] = useState({
+    login: "",
+    senha: "",
+  });
 
-export default function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData({
+      ...loginData,
+      [name]: value,
+    });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Faz o POST para a URL de login
+      const response = await axios.post(
+        "http://localhost:8080/auth/login",
+        loginData
+      );
+      console.log(response);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      alert("Usuário autenticado com sucesso!");
+      history.push("/clientes/listar");
+    } catch (error) {
+      alert("Usuario nao encontrado");
+      console.error("Erro ao fazer login:", error);
+    }
+  };
+
   return (
-    <Box component="form">
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel required>Senha</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          label="Login"
+          type="text"
+          name="login"
+          value={loginData.login}
+          onChange={handleChange}
+          required
         />
-      </FormControl>
-    </Box>
+        <TextField
+          fullWidth
+          label="Senha"
+          type="senha"
+          name="senha"
+          value={loginData.senha}
+          onChange={handleChange}
+          required
+        />
+        <Button variant="contained" type="submit">
+          Entrar
+        </Button>
+      </form>
+    </div>
   );
-}
+};
+
+export default Login;

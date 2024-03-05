@@ -1,0 +1,26 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+}
+
+.login-container form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-container form .MuiTextField-root {
+  width: 100%;
+}
+
+.login-container form .MuiButton-root {
+  width: 100%;
+}
